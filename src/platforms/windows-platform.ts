@@ -21,7 +21,7 @@ export class WindowsPlatform extends BasePlatform {
         size: drive.Size,
         mountpoints: volume?.DriveLetter ? [{ path: `${volume.DriveLetter}/` }] : [],
         raw: drive.Name,
-        protected: volume.IsReadOnly == 0 ? false : true,
+        protected: volume.IsReadOnly !== 0,
         system: volume?.BootVolume ?? false,
         // Removed because it's the same as displayName.
         // label: volume?.Label ?? 'Unnamed Drive',
