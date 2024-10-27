@@ -13,7 +13,7 @@ export class WindowsPlatform extends BasePlatform {
 
     return physicalDrives.map((drive: WindowsDrive, index: number) => {
       const volume = volumeInfo.filter((vol: WindowsVolume) => vol.DriveLetter?.includes(":"))[index];
-      
+
       const standarizedDrive = this.standardizeDrive({
         device: drive.Name,
         displayName: volume?.Label, //volume?.DriveLetter ?? drive.Name,
@@ -21,7 +21,7 @@ export class WindowsPlatform extends BasePlatform {
         size: drive.Size,
         mountpoints: volume?.DriveLetter ? [{ path: `${volume.DriveLetter}/` }] : [],
         raw: drive.Name,
-        protected: volume?.IsReadOnly == 0 ? false : true,
+        protected: volume.IsReadOnly == 0 ? false : true,
         system: volume?.BootVolume ?? false,
         // Removed because it's the same as displayName.
         // label: volume?.Label ?? 'Unnamed Drive',

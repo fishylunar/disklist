@@ -1,6 +1,6 @@
 import { execSync } from 'node:child_process';
 import { CommandExecutionError } from './errors.ts';
-import { Drive, FilterOptions, macOSDiskDevice } from './types.ts';
+import { Drive, FilterOptions, MacOSDiskDevice } from './types.ts';
 import { createHash } from 'node:crypto';
 export class DiskListUtils {
   /**
@@ -20,7 +20,7 @@ export class DiskListUtils {
   /**
    * Parses plist output into JSON format (macOS specific)
    */
-  static parsePlistOutput(plistStr: string): macOSDiskDevice {
+  static parsePlistOutput(plistStr: string): MacOSDiskDevice {
     const escapedStr = plistStr.replace(/'/g, '\'\\\'\'');
     return JSON.parse(
       this.executeCommand(`echo '${escapedStr}' | plutil -convert json -o - -`, {
@@ -65,8 +65,9 @@ export class DiskListUtils {
       GB: 1024 ** 3,
       TB: 1024 ** 4
     };
+    const sizePattern = /^(\d+(?:\.\d+)?)\s*([KMGT]B|B)$/i;
+    const match = sizePattern.exec(size);
 
-    const match = size.match(/^(\d+(?:\.\d+)?)\s*([KMGT]B|B)$/i);
     if (!match) return 0;
 
     const [, value, unit] = match;

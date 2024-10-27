@@ -47,10 +47,19 @@ export class LinuxPlatform extends BasePlatform {
 
   private getUdevInfo(deviceName: string) {
     const output = DiskListUtils.executeCommand(`udevadm info --query=property --name=${deviceName}`);
+  
+    const modelPattern = /ID_MODEL=(.*)/;
+    const typePattern = /ID_TYPE=(.*)/;
+    const serialPattern = /ID_SERIAL=(.*)/;
+  
+    const modelMatch = modelPattern.exec(output);
+    const typeMatch = typePattern.exec(output);
+    const serialMatch = serialPattern.exec(output);
+  
     return {
-      model: output.match(/ID_MODEL=(.*)/)?.[1] || 'Unknown',
-      type: output.match(/ID_TYPE=(.*)/)?.[1] || 'Unknown',
-      serial: output.match(/ID_SERIAL=(.*)/)?.[1]
+      model: modelMatch?.[1] || 'Unknown',
+      type: typeMatch?.[1] || 'Unknown',
+      serial: serialMatch?.[1]
     };
   }
 

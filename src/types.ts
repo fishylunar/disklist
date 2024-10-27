@@ -54,7 +54,7 @@ export interface Mountpoint {
   }
 
   /** macOS Disk Device */
-  export interface macOSDiskDevice {
+  export interface MacOSDiskDevice {
     DeviceIdentifier: string;
     BusProtocol: string;
     DeviceNode: string
@@ -66,7 +66,7 @@ export interface Mountpoint {
     RemovableMedia: boolean;
     Ejectable: boolean;
     SystemImage: boolean;
-    AllDisksAndPartitions: macOSDiskDevice[];
+    AllDisksAndPartitions: MacOSDiskDevice[];
     VolumeName: string;
     FilesystemName: string;
     FilesystemUserVisibleName: string;

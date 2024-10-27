@@ -1,5 +1,5 @@
 import { BasePlatform } from './base-platform.ts';
-import { Drive, macOSDiskDevice } from '../types.ts';
+import { Drive, MacOSDiskDevice } from '../types.ts';
 import { DiskListUtils } from '../utils.ts';
 
 export class MacOSPlatform extends BasePlatform {
@@ -9,7 +9,7 @@ export class MacOSPlatform extends BasePlatform {
     );
 
     return diskList.AllDisksAndPartitions
-      .map((disk: macOSDiskDevice) => {
+      .map((disk: MacOSDiskDevice) => {
         const diskInfo = this.getDiskInfo(disk.DeviceIdentifier);
         if (!diskInfo || diskInfo.BusProtocol === 'Disk Image') {
           return null;
@@ -40,7 +40,7 @@ export class MacOSPlatform extends BasePlatform {
       .filter((drive: Drive | null): drive is Drive => drive !== null);
   }
 
-  private getDiskInfo(diskName: string): macOSDiskDevice {
+  private getDiskInfo(diskName: string): MacOSDiskDevice {
     const infoStr = DiskListUtils.executeCommand(`diskutil info -plist /dev/${diskName}`);
     return DiskListUtils.parsePlistOutput(infoStr);
   }
