@@ -1,6 +1,6 @@
-import { BasePlatform } from './base-platform.ts';
-import { Drive, WindowsDrive, WindowsVolume} from '../types.ts';
-import { DiskListUtils } from '../utils.ts';
+import { BasePlatform } from "./base-platform.ts";
+import { Drive, WindowsDrive, WindowsVolume } from "../types.ts";
+import { DiskListUtils } from "../utils.ts";
 
 export class WindowsPlatform extends BasePlatform {
   getDrives(): Drive[] {
@@ -12,29 +12,37 @@ export class WindowsPlatform extends BasePlatform {
     }
 
     return physicalDrives.map((drive: WindowsDrive, index: number) => {
-      const volume = volumeInfo.filter((vol: WindowsVolume) => vol.DriveLetter?.includes(":"))[index];
+      const volume = volumeInfo.filter((vol: WindowsVolume) =>
+        vol.DriveLetter?.includes(":")
+      )[index];
 
       const standarizedDrive = this.standardizeDrive({
         device: drive.Name,
         displayName: volume?.Label, //volume?.DriveLetter ?? drive.Name,
-        description: DiskListUtils.serializeDescriptionString(drive.Model) ?? 'Unknown',
+        description: DiskListUtils.serializeDescriptionString(drive.Model) ??
+          "Unknown",
         size: drive.Size,
-        mountpoints: volume?.DriveLetter ? [{ path: `${volume.DriveLetter}/` }] : [],
+        mountpoints: volume?.DriveLetter
+          ? [{ path: `${volume.DriveLetter}/` }]
+          : [],
         raw: drive.Name,
         protected: volume.IsReadOnly !== 0,
         system: volume?.BootVolume ?? false,
         // Removed because it's the same as displayName.
         // label: volume?.Label ?? 'Unnamed Drive',
-        removable: drive.MediaType === 'Removable Media',
-        fileSystem: volume?.FileSystem ?? 'Unknown',
-        driveType: DiskListUtils.serializeDriveTypeString(drive.MediaType) ?? 'Unknown',
+        removable: drive.MediaType === "Removable Media",
+        fileSystem: volume?.FileSystem ?? "Unknown",
+        driveType: DiskListUtils.serializeDriveTypeString(drive.MediaType) ??
+          "Unknown",
         mounted: !!volume?.DriveLetter,
         serialNumber: drive.SerialNumber, // We change this later
         // healthStatus: drive.Status
       });
 
       // Update the serial number of the drive
-      standarizedDrive.serialNumber = DiskListUtils.generateSerialNumber(standarizedDrive);
+      standarizedDrive.serialNumber = DiskListUtils.generateSerialNumber(
+        standarizedDrive,
+      );
       return standarizedDrive;
     });
   }
@@ -47,7 +55,9 @@ export class WindowsPlatform extends BasePlatform {
                     @{N='IsReadOnly';E={$_.Attributes -band 1}} |
       ConvertTo-Json
     `;
-    return JSON.parse(DiskListUtils.executeCommand(command, { shell: 'powershell.exe' }));
+    return JSON.parse(
+      DiskListUtils.executeCommand(command, { shell: "powershell.exe" }),
+    );
   }
 
   private getPhysicalDrives() {
@@ -56,6 +66,8 @@ export class WindowsPlatform extends BasePlatform {
       Select-Object Model, Size, MediaType, Name, SerialNumber, Status |
       ConvertTo-Json
     `;
-    return JSON.parse(DiskListUtils.executeCommand(command, { shell: 'powershell.exe' }));
+    return JSON.parse(
+      DiskListUtils.executeCommand(command, { shell: "powershell.exe" }),
+    );
   }
 }

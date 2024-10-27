@@ -1,6 +1,6 @@
-import { Drive, DiskListOptions } from './types.ts';
-import { PlatformFactory } from './platform-factory.ts';
-import { DiskListUtils } from './utils.ts';
+import { DiskListOptions, Drive } from "./types.ts";
+import { PlatformFactory } from "./platform-factory.ts";
+import { DiskListUtils } from "./utils.ts";
 
 export default class DiskList {
   /**
@@ -8,12 +8,14 @@ export default class DiskList {
    * @param options Configuration options for drive listing
    * @returns Array of standardized drive information
    */
-  static listDrivesSync(options: DiskListOptions = { returnOnlyRemovable: false, filter: {} }): Drive[] {
+  static listDrivesSync(
+    options: DiskListOptions = { returnOnlyRemovable: false, filter: {} },
+  ): Drive[] {
     const platform = PlatformFactory.getPlatform();
     let drives = platform.getDrives();
 
     if (options.returnOnlyRemovable) {
-      drives = drives.filter(drive => drive.removable);
+      drives = drives.filter((drive) => drive.removable);
     }
 
     return DiskListUtils.filterDrives(drives, options.filter);
@@ -24,10 +26,12 @@ export default class DiskList {
    * @param options Configuration options for drive listing
    * @returns Promise resolving to array of standardized drive information
    */
-  static async listDrives(options: DiskListOptions = { returnOnlyRemovable: false, filter: {} }): Promise<Drive[]> {
+  static async listDrives(
+    options: DiskListOptions = { returnOnlyRemovable: false, filter: {} },
+  ): Promise<Drive[]> {
     return await this.listDrivesSync(options);
   }
 }
 
-export * from './types.ts';
-export * from './errors.ts';
+export * from "./types.ts";
+export * from "./errors.ts";
