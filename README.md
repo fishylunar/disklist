@@ -34,7 +34,7 @@ console.log(disks.filter(disk => disk.removable))
 Would when run on a Windows machine result in:
 (With a USB Drive plugged in)
 
-```json
+```js
 [
   {
     device: "\\\\.\\PHYSICALDRIVE1",
@@ -56,7 +56,7 @@ Would when run on a Windows machine result in:
 
 And on MacOS (with the same drive plugged in) it would result in:
 
-```json
+```js
 [
   {
     device: "/dev/disk8",
