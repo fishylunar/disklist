@@ -2,6 +2,8 @@
 
 JavaScript / TypeScript Library for getting info about drives & disks.
 
+
+[![CodeFactor](https://www.codefactor.io/repository/github/fishylunar/disklist/badge/main)](https://www.codefactor.io/repository/github/fishylunar/disklist/overview/main)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=fishylunar_disklist&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=fishylunar_disklist)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=fishylunar_disklist&metric=bugs)](https://sonarcloud.io/summary/new_code?id=fishylunar_disklist)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=fishylunar_disklist&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=fishylunar_disklist)
