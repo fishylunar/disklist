@@ -1,0 +1,15 @@
+{
+    "lint": {
+        "include": [
+            "src/"
+        ],
+        "exclude": [
+            "dist/"
+        ],
+        "rules": {
+            "tags": [
+                "recommended"
+            ]
+        }
+    }
+}
