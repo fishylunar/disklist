@@ -6,6 +6,7 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "deno test --allow-env --allow-read --allow-run",
+    "build": "deno run --allow-read --allow-write --allow-env --allow-net --allow-run bundle.ts",
     "start": "deno run --allow-env --allow-read --allow-run playground.ts"
   },
   "repository": {
@@ -19,6 +20,7 @@
   },
   "homepage": "https://github.com/fishylunar/disklist.js#readme",
   "dependencies": {
+    "esbuild": "^0.20.2",
     "eslint": "^9.13.0"
   }
 }
