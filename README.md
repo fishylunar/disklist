@@ -14,6 +14,8 @@ JavaScript / TypeScript Library for getting info about drives & disks.
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=fishylunar_disklist&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=fishylunar_disklist)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=fishylunar_disklist&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=fishylunar_disklist)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=fishylunar_disklist&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=fishylunar_disklist)
+
+
 [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=fishylunar_disklist)
 
 ![Deno JS](https://img.shields.io/badge/deno%20js-000000?style=for-the-badge&logo=deno&logoColor=white)
