@@ -13,12 +13,10 @@ export abstract class BasePlatform {
       raw: drive.raw ?? "",
       protected: drive.protected ?? false,
       system: drive.system ?? false,
-      // label: drive.label ?? 'Unnamed Drive',
       removable: drive.removable ?? false,
       fileSystem: drive.fileSystem ?? "Unknown",
       driveType: drive.driveType ?? "Unknown",
       mounted: drive.mounted ?? false,
-      // healthStatus: drive.healthStatus,
       serialNumber: drive.serialNumber,
     };
   }
