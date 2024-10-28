@@ -23,6 +23,11 @@ jobs:
           node-version: 20
           registry-url: https://registry.npmjs.org/
       - run: npm install
+      - name: Install Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - run: npm run build
       - uses: JS-DevTools/npm-publish@v3
         with:
           token: ${{ secrets.NPM_TOKEN }}
