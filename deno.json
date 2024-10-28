@@ -1,4 +1,5 @@
 {
+    "nodeModulesDir": "auto",
     "lint": {
         "include": [
             "src/"
@@ -11,5 +12,12 @@
                 "recommended"
             ]
         }
+    },
+    "fmt": {
+        "exclude": [
+            "dist",
+            "./",
+            "!./src"
+        ]
     }
 }
