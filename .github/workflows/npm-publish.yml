@@ -23,7 +23,6 @@ jobs:
           node-version: 20
           registry-url: https://registry.npmjs.org/
       - run: npm install
-      - run: npm version patch
       - uses: JS-DevTools/npm-publish@v3
         with:
           token: ${{ secrets.NPM_TOKEN }}
