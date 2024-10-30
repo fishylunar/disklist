@@ -32,7 +32,7 @@ export class MacOSPlatform extends BasePlatform {
           // label: volume?.Label ?? 'Unnamed Drive',
           removable: diskInfo.RemovableMedia || diskInfo.Ejectable,
           fileSystem:
-            DiskListUtils.getFileSystemNameMacOS(diskInfo.DeviceNode) ||
+            DiskListUtils.serializeFileSystemString((DiskListUtils.getFileSystemNameMacOS(diskInfo.DeviceNode)??"Unknown"))||
             "Unknown",
           driveType:
             DiskListUtils.serializeDriveTypeString(diskInfo.BusProtocol) ||

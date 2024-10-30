@@ -86,6 +86,7 @@ export class DiskListUtils {
    * @returns {string | null} DisplayName of the disk - Returns undefined if no name was found.
    */
   static getDriveNameMacOS(diskName: string): string | undefined {
+    // TODO: Fix this mess
     try {
       const infoStr = execSync(`diskutil info -plist ${diskName}`).toString();
       const parsed = this.parsePlistOutput(infoStr);
@@ -108,6 +109,7 @@ export class DiskListUtils {
    * @returns {string | null} DisplayName of the disk - Returns undefined if no name was found.
    */
   static getFileSystemNameMacOS(diskName: string): string | undefined {
+    // TODO: Fix this mess
     try {
       const infoStr = execSync(`diskutil info -plist ${diskName}`).toString();
       const parsed = this.parsePlistOutput(infoStr);
@@ -115,11 +117,6 @@ export class DiskListUtils {
         parsed.FilesystemName || "Unnamed Disk";
       if (fsString.includes("(")) {
         fsString = fsString.split("(")[1].replace(")", "").trim();
-      }
-      switch (fsString) {
-        case "vfat":
-          fsString = "FAT32";
-          break;
       }
       return fsString;
     } catch (error) {
@@ -131,11 +128,6 @@ export class DiskListUtils {
           parsed.FilesystemName || "Unnamed Disk";
         if (fsString.includes("(")) {
           fsString = fsString.split("(")[1].replace(")", "").trim();
-        }
-        switch (fsString) {
-          case "vfat":
-            fsString = "FAT32";
-            break;
         }
         return fsString;
       }
@@ -155,6 +147,8 @@ export class DiskListUtils {
       case "FLASH_DISK":
         return "USB Mass Storage Device";
       case "FLASH DISK":
+        return "USB Mass Storage Device";
+      case "FLASH  DISK":
         return "USB Mass Storage Device";
       default:
         return description;
@@ -186,9 +180,12 @@ export class DiskListUtils {
   }
 
   /** serialize filesystem string */
+  // TODO: fix this mess
   static serializeFileSystemString(fs: string): string {
     switch (fs) {
       case "vfat":
+        return "FAT32";
+      case "FAT12":
         return "FAT32";
       default:
         return fs;
