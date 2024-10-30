@@ -1,5 +1,5 @@
 import { BasePlatform } from "./base-platform.ts";
-import { Drive, LinuxDevice } from "../types.ts";
+import { Drive, LinuxDevice, LinuxChildPartition } from "../types.ts";
 import { DiskListUtils } from "../utils.ts";
 
 export class LinuxPlatform extends BasePlatform {
@@ -11,19 +11,22 @@ export class LinuxPlatform extends BasePlatform {
       .map((device: LinuxDevice) => {
         const udevInfo = this.getUdevInfo(device.name);
 
+        // Get first child partition
+        const firstChildPartition:LinuxChildPartition = device.children?.[0];
+
         const standarizedDrive = this.standardizeDrive({
           device: `/dev/${device.name}`,
-          displayName: device.label || `/dev/${device.name}`,
+          displayName: device.label || firstChildPartition.label || `/dev/${device.name}`,
           description: DiskListUtils.serializeDescriptionString(udevInfo.model) || "Unknown",
-          size: parseInt(device.size, 10),
-          mountpoints: device.mountpoint ? [{ path: device.mountpoint }] : [],
+          size: parseInt(device.size, 10), // TODO: Maybe get size from firstChildPartition instead?
+          mountpoints: device.mountpoint ? [{ path: device.mountpoint }] : firstChildPartition.mountpoint ? [{ path: firstChildPartition.mountpoint }] : [],
           raw: `/dev/${device.name}`,
           protected: device.ro === "1",
           system: this.isSystemDrive(device.name),
           removable: !!device.rm,
-          fileSystem: DiskListUtils.serializeFileSystemString(device.fstype) || "Unknown",
+          fileSystem: DiskListUtils.serializeFileSystemString(device.fstype || firstChildPartition.fstype) || "Unknown",
           driveType: DiskListUtils.serializeDriveTypeString(udevInfo.type) || "Unknown",
-          mounted: !!device.mountpoint,
+          mounted: !!device.mountpoint || !!firstChildPartition.mountpoint,
           serialNumber: "",
         });
         

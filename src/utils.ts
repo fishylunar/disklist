@@ -150,6 +150,8 @@ export class DiskListUtils {
         return "USB Mass Storage Device";
       case "FLASH  DISK":
         return "USB Mass Storage Device";
+      case "Storage_Device":
+        return "USB Mass Storage Device";
       default:
         return description;
     }

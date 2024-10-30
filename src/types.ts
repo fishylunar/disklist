@@ -51,6 +51,19 @@ export interface LinuxDevice {
   rm: string; // Removable
   ro: string; // Read Only
   fstype: string;
+  children?: LinuxChildPartition | undefined;
+}
+
+/** Linux Drive Child Partition */
+export interface LinuxChildPartition {
+  name: string;
+  size: number;
+  ro: boolean; // Read Only
+  type: string;
+  mountpoint: string;
+  label: string;
+  rm: boolean; // Removable
+  fstype: string;
 }
 
 /** macOS Disk Device */
