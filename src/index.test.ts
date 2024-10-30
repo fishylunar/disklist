@@ -24,7 +24,7 @@ Deno.test("Disk should be recognized as USB Drive", () => {
 });
 
 Deno.test("Disk should have correct display name", () => {
-  expect(disks[0].displayName).toBe("WINDOWS10");
+  expect(disks[0].displayName).toBe("IPXE");
 });
 
 Deno.test("Disk should have correct description", () => {
@@ -32,9 +32,9 @@ Deno.test("Disk should have correct description", () => {
 });
 
 Deno.test("Disk should have correct size", () => {
-  expect(disks[0].size.toString().substring(0, 4)).toBe("3126");
+  expect(disks[0].size.toString().substring(0, 4)).toBe("4089");
 });
 
 Deno.test("Disk should have correct serial number", () => {
-  expect(disks[0].serialNumber).toBe("2a30d57d2e49d654229299c66f80e0e4");
+  expect(disks[0].serialNumber).toBe("f85b46a244577c323bacacb910695046");
 });
