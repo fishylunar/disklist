@@ -87,12 +87,19 @@ export class DiskListUtils {
    */
   static getDriveNameMacOS(diskName: string): string | undefined {
     try {
-      const infoStr = execSync(`diskutil info -plist ${diskName}s1`).toString();
+      const infoStr = execSync(`diskutil info -plist ${diskName}`).toString();
       const parsed = this.parsePlistOutput(infoStr);
       return parsed.VolumeName || parsed.MediaName || "Unnamed Disk";
     } catch (error) {
-      console.error(`Error getting name for disk ${diskName}:`, error);
-      return undefined;
+      const message = error instanceof Error ? error.message : "Unknown error";
+      try {
+        const infoStr = execSync(`diskutil info -plist ${diskName}s1`).toString();
+        const parsed = this.parsePlistOutput(infoStr);
+        return parsed.VolumeName || parsed.MediaName || "Unnamed Disk";
+      } catch (error) {
+        console.error(`Error getting name for disk ${diskName}:`, error, message);
+        return undefined;
+      }
     }
   }
   /**
@@ -102,17 +109,40 @@ export class DiskListUtils {
    */
   static getFileSystemNameMacOS(diskName: string): string | undefined {
     try {
-      const infoStr = execSync(`diskutil info -plist ${diskName}s1`).toString();
+      const infoStr = execSync(`diskutil info -plist ${diskName}`).toString();
       const parsed = this.parsePlistOutput(infoStr);
       let fsString = parsed.FilesystemUserVisibleName ||
         parsed.FilesystemName || "Unnamed Disk";
       if (fsString.includes("(")) {
         fsString = fsString.split("(")[1].replace(")", "").trim();
       }
+      switch (fsString) {
+        case "vfat":
+          fsString = "FAT32";
+          break;
+      }
       return fsString;
     } catch (error) {
-      console.error(`Error getting name for disk ${diskName}:`, error);
+      const message = error instanceof Error ? error.message : "Unknown error";
+      try {
+        const infoStr = execSync(`diskutil info -plist ${diskName}s1`).toString();
+        const parsed = this.parsePlistOutput(infoStr);
+        let fsString = parsed.FilesystemUserVisibleName ||
+          parsed.FilesystemName || "Unnamed Disk";
+        if (fsString.includes("(")) {
+          fsString = fsString.split("(")[1].replace(")", "").trim();
+        }
+        switch (fsString) {
+          case "vfat":
+            fsString = "FAT32";
+            break;
+        }
+        return fsString;
+      }
+      catch (error) {
+        console.error(`Error getting name for disk ${diskName}:`, error, message);
       return undefined;
+      }
     }
   }
   /** Attempt to unify the drive.descripton */
@@ -121,6 +151,10 @@ export class DiskListUtils {
       case "Storage Device":
         return "USB Mass Storage Device";
       case "Mass Storage Device USB Device":
+        return "USB Mass Storage Device";
+      case "FLASH_DISK":
+        return "USB Mass Storage Device";
+      case "FLASH DISK":
         return "USB Mass Storage Device";
       default:
         return description;
@@ -133,6 +167,8 @@ export class DiskListUtils {
       case "Removable Media":
         return "USB Drive";
       case "USB":
+        return "USB Drive";
+      case "disk":
         return "USB Drive";
       default:
         return driveTupe;

@@ -11,7 +11,7 @@ export class LinuxPlatform extends BasePlatform {
       .map((device: LinuxDevice) => {
         const udevInfo = this.getUdevInfo(device.name);
 
-        return this.standardizeDrive({
+        const standarizedDrive = this.standardizeDrive({
           device: `/dev/${device.name}`,
           displayName: device.label || `/dev/${device.name}`,
           description: udevInfo.model || "Unknown",
@@ -24,8 +24,14 @@ export class LinuxPlatform extends BasePlatform {
           fileSystem: device.fstype || "Unknown",
           driveType: udevInfo.type || "Unknown",
           mounted: !!device.mountpoint,
-          serialNumber: udevInfo.serial,
+          serialNumber: "",
         });
+        
+        standarizedDrive.serialNumber = DiskListUtils.generateSerialNumber(
+          standarizedDrive,
+        );
+
+        return standarizedDrive;
       });
   }
 
