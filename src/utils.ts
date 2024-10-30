@@ -184,4 +184,15 @@ export class DiskListUtils {
       drive.system;
     return createHash("md5").update(serialString).digest("hex");
   }
+
+  /** serialize filesystem string */
+  static serializeFileSystemString(fs: string): string {
+    switch (fs) {
+      case "vfat":
+        return "FAT32";
+      default:
+        return fs;
+    }
+  }
 }
+

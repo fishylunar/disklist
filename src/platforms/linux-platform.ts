@@ -14,15 +14,15 @@ export class LinuxPlatform extends BasePlatform {
         const standarizedDrive = this.standardizeDrive({
           device: `/dev/${device.name}`,
           displayName: device.label || `/dev/${device.name}`,
-          description: udevInfo.model || "Unknown",
+          description: DiskListUtils.serializeDescriptionString(udevInfo.model) || "Unknown",
           size: parseInt(device.size, 10),
           mountpoints: device.mountpoint ? [{ path: device.mountpoint }] : [],
           raw: `/dev/${device.name}`,
           protected: device.ro === "1",
           system: this.isSystemDrive(device.name),
           removable: !!device.rm,
-          fileSystem: device.fstype || "Unknown",
-          driveType: udevInfo.type || "Unknown",
+          fileSystem: DiskListUtils.serializeFileSystemString(device.fstype) || "Unknown",
+          driveType: DiskListUtils.serializeDriveTypeString(udevInfo.type) || "Unknown",
           mounted: !!device.mountpoint,
           serialNumber: "",
         });
